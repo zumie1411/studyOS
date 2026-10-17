@@ -1,0 +1,12 @@
+# Python virtual environments & bytecode
+backend/venv/
+*/__pycache__/
+*.pyc
+
+# Local SQLite databases
+backend/*.db
+*.sqlite3
+
+# OS & Editor temp files
+.vscode/
+.DS_Store

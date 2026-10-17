@@ -1,0 +1,1 @@
+"""StudyOS backend application package."""

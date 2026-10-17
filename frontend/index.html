@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyOS — Academic Workspace</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>StudyOS</h2>
+        <span>Academic Workspace</span>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-item active" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="nav-item" onclick="switchTab('planner')">Smart Planner</button>
+        <button class="nav-item" onclick="switchTab('subjects')">Subjects & Topics</button>
+        <button class="nav-item" onclick="switchTab('tasks')">Tasks & Deadlines</button>
+      </nav>
+    </aside>
+
+    <main class="content-area">
+      <!-- DASHBOARD TAB -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <header class="section-header">
+          <h1>Dashboard Overview</h1>
+          <p>Real-time status of tasks, upcoming exams, and scheduled revision.</p>
+        </header>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="label">Total Tasks</span>
+            <span class="val" id="metric-tasks">0</span>
+          </div>
+          <div class="metric-card">
+            <span class="label">Upcoming Exams</span>
+            <span class="val" id="metric-exams">0</span>
+          </div>
+          <div class="metric-card highlight">
+            <span class="label">Available Study Time</span>
+            <span class="val" id="metric-study-time">180m</span>
+          </div>
+        </div>
+
+        <div class="dual-columns">
+          <div class="panel">
+            <h3>Urgent Tasks</h3>
+            <ul id="urgent-tasks-list" class="item-list"></ul>
+          </div>
+          <div class="panel">
+            <h3>Upcoming Exams</h3>
+            <ul id="upcoming-exams-list" class="item-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SMART PLANNER TAB -->
+      <section id="tab-planner" class="tab-pane">
+        <header class="section-header">
+          <h1>Adaptive Planner & Recovery Mode</h1>
+          <p>Prioritizes your schedule using deadlines, subject difficulty, and exam dates.</p>
+        </header>
+
+        <div class="planner-controls">
+          <div class="control-group">
+            <label>Available Minutes Today:</label>
+            <input type="number" id="planner-time" value="180" step="15" min="30">
+          </div>
+          <div class="control-group toggle">
+            <input type="checkbox" id="recovery-mode-toggle">
+            <label for="recovery-mode-toggle"><strong>Enable Recovery Mode</strong> (prioritize missed work)</label>
+          </div>
+          <button class="btn primary" onclick="loadPlanner()">Calculate Optimal Plan</button>
+        </div>
+
+        <div class="plan-summary">
+          <p id="plan-time-breakdown">Allocated: 0m / 180m</p>
+        </div>
+
+        <h3>Scheduled for Today</h3>
+        <ul id="scheduled-plan-list" class="item-list"></ul>
+
+        <h3 class="mt-4">Overflow (Pushed to Next Session)</h3>
+        <ul id="overflow-plan-list" class="item-list"></ul>
+      </section>
+
+      <!-- SUBJECTS TAB -->
+      <section id="tab-subjects" class="tab-pane">
+        <header class="section-header">
+          <h1>Subjects & Syllabus</h1>
+          <p>Track modules and configure topic difficulty vs confidence.</p>
+        </header>
+
+        <div class="form-card">
+          <h3>Add Subject</h3>
+          <form id="form-add-subject" onsubmit="handleCreateSubject(event)">
+            <div class="form-row">
+              <input type="text" id="subj-name" placeholder="Subject Name (e.g. Operating Systems)" required>
+              <input type="text" id="subj-sem" placeholder="Semester (e.g. Sem 4)" required>
+              <button type="submit" class="btn primary">Save Subject</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="subjects-container" class="cards-grid"></div>
+      </section>
+
+      <!-- TASKS TAB -->
+      <section id="tab-tasks" class="tab-pane">
+        <header class="section-header">
+          <h1>Tasks & Assignments</h1>
+          <p>Manage coursework and track completion status.</p>
+        </header>
+
+        <div class="form-card">
+          <h3>New Task</h3>
+          <form id="form-add-task" onsubmit="handleCreateTask(event)">
+            <div class="form-grid">
+              <select id="task-subject-id" required>
+                <option value="">Select Subject</option>
+              </select>
+              <input type="text" id="task-title" placeholder="Assignment or Study Title" required>
+              <input type="datetime-local" id="task-deadline" required>
+              <input type="number" id="task-duration" placeholder="Est. Minutes" value="45" required>
+              <select id="task-priority">
+                <option value="1">Priority: Low (1)</option>
+                <option value="3" selected>Priority: Medium (3)</option>
+                <option value="5">Priority: Urgent (5)</option>
+              </select>
+              <button type="submit" class="btn primary">Add Task</button>
+            </div>
+          </form>
+        </div>
+
+        <h3>All Tasks</h3>
+        <ul id="all-tasks-list" class="item-list"></ul>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
